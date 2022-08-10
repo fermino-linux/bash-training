@@ -18,5 +18,5 @@ echo "Instalando Docker e suas dependências"
 sudo yum in -y $pacotes &>/dev/null
 
 # Habilitando o serviço
-systemctl enable --now docker
+sudo systemctl enable --now docker
 
