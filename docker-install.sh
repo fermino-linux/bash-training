@@ -17,4 +17,6 @@ sudo yum config-manager --add-repo https://download.docker.com/linux/centos/dock
 echo "Instalando Docker e suas dependências"
 sudo yum in -y $pacotes &>/dev/null
 
+# Habilitando o serviço
+systemctl enable --now docker
 
