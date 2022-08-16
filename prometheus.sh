@@ -16,15 +16,15 @@ tar -xzf prometheus-2.38.0.linux-amd64.tar.gz
 tar -xzf alertmanager-0.24.0.linux-amd64.tar.gz
 
 echo "Copiando os diretórios para  /usr/local/lib"
-sudo mv prometheus-2.38.0.linux-amd64 /usr/local/lib/
-sudo mv alertmanager-0.24.0.linux-amd64 /usr/local/lib/
+sudo mv prometheus-2.38.0.linux-amd64 /usr/local/lib/prometheus
+sudo mv alertmanager-0.24.0.linux-amd64 /usr/local/lib/alertmanager
 
 echo "Ajustando os executáveis.."
 cd /usr/local/bin
-sudo ln -sT /usr/local/lib/prometheus prometheus
-sudo ln -sT /usr/local/lib/promtool promtool
-sudo ln -sT /usr/local/lib/alertmanager alertmanager
-sudo ln -sT /usr/local/lib/amtool amtool
+sudo ln -sT /usr/local/lib/prometheus/prometheus prometheus
+sudo ln -sT /usr/local/lib/prometheus promtool
+sudo ln -sT /usr/local/lib/alertmanager/alertmanager alertmanager
+sudo ln -sT /usr/local/lib/alertmanager/amtool amtool
 
 echo "Finalizado"
 
