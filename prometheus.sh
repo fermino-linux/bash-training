@@ -26,10 +26,9 @@ sudo ln -sT /usr/local/lib/prometheus/promtool promtool
 sudo ln -sT /usr/local/lib/alertmanager/alertmanager alertmanager
 sudo ln -sT /usr/local/lib/alertmanager/amtool amtool
 
-
 echo "Inicializando"
-prometheus --config.file="/usr/local/lib/prometheus/prometheus.yml"
-alertmanager --config.file="/usr/local/lib/alertmanager/alertmanager.yml"
+/usr/local/bin/prometheus --config.file="/usr/local/lib/prometheus/prometheus.yml"
+/usr/local/bin/alertmanager --config.file="/usr/local/lib/alertmanager/alertmanager.yml"
 
 echo "Finalizado"
 
