@@ -7,13 +7,13 @@ echo "Instalando o wget"
 sudo yum in -y wget &>/dev/null
 
 echo "Obtendo os arquivos para a instalação do Prometheus"
-wget $prom_link
+wget $prom_link 
 echo "Obtendo os arquivos para a instalação do Alert Manager"
-wget $am_link
+wget $am_link 
 
-echo "Extraindo os arquivos necessários"
+echo "Extraindo os arquivos necessários" 
 tar -xzf prometheus-2.38.0.linux-amd64.tar.gz
-tar -xzf alertmanager-0.24.0.linux-amd64.tar.gz
+tar -xzf alertmanager-0.24.0.linux-amd64.tar.gz 
 
 echo "Copiando os diretórios para  /usr/local/lib"
 sudo mv prometheus-2.38.0.linux-amd64 /usr/local/lib/prometheus
@@ -22,7 +22,7 @@ sudo mv alertmanager-0.24.0.linux-amd64 /usr/local/lib/alertmanager
 echo "Ajustando os executáveis.."
 cd /usr/local/bin
 sudo ln -sT /usr/local/lib/prometheus/prometheus prometheus
-sudo ln -sT /usr/local/lib/prometheus promtool
+sudo ln -sT /usr/local/lib/prometheus/promtool promtool
 sudo ln -sT /usr/local/lib/alertmanager/alertmanager alertmanager
 sudo ln -sT /usr/local/lib/alertmanager/amtool amtool
 
