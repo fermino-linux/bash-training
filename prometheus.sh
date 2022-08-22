@@ -3,13 +3,16 @@
 prom_link='https://github.com/prometheus/prometheus/releases/download/v2.38.0/prometheus-2.38.0.linux-amd64.tar.gz'
 am_link='https://github.com/prometheus/alertmanager/releases/download/v0.24.0/alertmanager-0.24.0.linux-amd64.tar.gz'
 
-echo "Instalando o wget"
-sudo yum in -y wget &>/dev/null
+# wget instalado?
+if [[ ! -x '/usr/bin/wget' ]] ; then
+    echo "Instalando o wget..."
+    sudo yum in -y wget &>/dev/null
+fi
 
 echo "Obtendo os arquivos para a instalação do Prometheus"
-wget $prom_link 
+wget -q $prom_link 
 echo "Obtendo os arquivos para a instalação do Alert Manager"
-wget $am_link 
+wget -q $am_link 
 
 echo "Extraindo os arquivos necessários" 
 tar -xzf prometheus-2.38.0.linux-amd64.tar.gz
