@@ -17,3 +17,9 @@ sudo yum in -y $pacotes &>/dev/null
 echo "Habilitando o serviço..."
 sudo systemctl enable --now docker &>/dev/null
 
+# Se um usuário for informado, ele recebe acesso ao docker
+if [[ $# -gt 0 ]] ; then
+    control_user="$1"
+    grep "$control_user" /etc/passwd &>/dev/null
+    [[ $? -ne 0 ]] && usermod -aG docker "$control_user" && newgrp docker
+fi
