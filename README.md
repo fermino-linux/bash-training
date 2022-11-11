@@ -1,2 +1,2 @@
-# scripts-bash
+# bash-training
 Automação de tarefas com scripts bash
