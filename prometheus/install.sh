@@ -18,3 +18,7 @@ sudo yum install -y wget
 wget -qO $prom_filename $prom_url && mkdir prometheus 
 
 tar -C prometheus --strip-components 1 -xf $prom_filename
+
+rm -f $prom_filename
+
+cd prometheus && sudo ./prometheus &>/dev/null && echo 'Prometheus executando...'
