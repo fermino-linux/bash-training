@@ -14,6 +14,6 @@ prom_url='https://github.com/prometheus/prometheus/releases/download/v2.40.3/pro
 
 sudo yum install -y wget 
 
-wget -qO prometheus.tar.gz
+wget -qO prometheus.tar.gz $prom_url
 
 tar -xf prometheus.tar.gz
