@@ -1,4 +1,17 @@
 #!/usr/bin/env bash
+#
+# Autor: 
+#    Fermino
+# Versão:
+#   1.0
+# Descrição:
+#   Faz a instalação do docker
+# Exemplos:
+#   Instala o docker
+#       ./install.sh 
+#   Instala o docker garantindo acesso a um usuário em especifico
+#       ./install.sh USUÁRIO
+
 
 # Instações anteriores?
 pacotes='docker-ce docker-ce-cli containerd.io docker-compose-plugin'
