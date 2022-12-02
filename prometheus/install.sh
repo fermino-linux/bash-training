@@ -26,7 +26,7 @@ sudo mkdir /var/lib/prometheus # para armazenar dados
 sudo mkdir /etc/prometheus
 
 # move os arquivos 
-sudo mv prometheus/{console,console_libraries,prometheus.yml} /etc/prometheus
+sudo mv prometheus/{consoles,console_libraries,prometheus.yml} /etc/prometheus
 sudo mv prometheus/{prometheus,promtool} /usr/sbin
 
 # Cria a o serviço do prometheus
