@@ -22,13 +22,19 @@ tar -C prometheus --strip-components 1 -xf $prom_filename
 rm -f $prom_filename
 
 # move o diretório
-sudomv prometheus /opt/
+sudo mv prometheus /opt/
 # cria o diretório para armazenamento de dados
 sudo mkdir /var/lib/prometheus
 
 # Definições de usuário
 sudo groupadd --system prometheus
 sudo useradd -s /sbin/nologin --system -g prometheus prometheus
+
+# corrige os permissionamentos
+sudo chown -R prometheus:prometheus /opt/prometheus
+sudo chmod -R 775 /opt/prometheus
+sudo chown -R prometheus:prometheus /var/lib/prometheus
+
 
 
 # Cria a o serviço do prometheus
@@ -54,6 +60,9 @@ ExecStart=/opt/prometheus/prometheus \
 
 SyslogIdentifier=prometheus
 Restart=always
+
+[Install]
+WantedBy=multi-user.target
 EOF
 
 # Reinicia o systemd e inicializa o prometheus
