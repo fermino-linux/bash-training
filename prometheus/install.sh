@@ -26,17 +26,6 @@ sudo mv prometheus /opt/
 # cria o diretório para armazenamento de dados
 sudo mkdir /var/lib/prometheus
 
-# Definições de usuário
-sudo groupadd --system prometheus
-sudo useradd -s /sbin/nologin -d /opt/prometheus --system -g prometheus prometheus
-
-# corrige os permissionamentos
-sudo chown -R prometheus:prometheus /opt/prometheus
-sudo chmod -R 775 /opt/prometheus
-sudo chown -R prometheus:prometheus /var/lib/prometheus
-
-
-
 # Cria a o serviço do prometheus
 cat << EOF | sudo tee > /etc/systemd/system/prometheus.service
 [Unit]
@@ -47,9 +36,9 @@ After=network-online.target
 
 [Service]
 Type=simple
-User=prometheus
-Group=prometheus
-ExecReload=/bin/kill -HUP $MAINPID
+User=rooot
+Group=root
+ExecReload=/bin/kill -HUP \$MAINPID
 ExecStart=/opt/prometheus/prometheus \\
     --config.file=/opt/prometheus/prometheus.yml \\
     --storage.tsdb.path=/var/lib/prometheus \\
