@@ -28,7 +28,7 @@ sudo mkdir /var/lib/prometheus
 
 # Definições de usuário
 sudo groupadd --system prometheus
-sudo useradd -s /sbin/nologin --system -g prometheus prometheus
+sudo useradd -s /sbin/nologin -d /opt/prometheus --system -g prometheus prometheus
 
 # corrige os permissionamentos
 sudo chown -R prometheus:prometheus /opt/prometheus
@@ -50,12 +50,12 @@ Type=simple
 User=prometheus
 Group=prometheus
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/opt/prometheus/prometheus \
-    --config.file=/opt/prometheus/prometheus.yaml
-    --storage.tsdb.path=/var/lib/prometheus
-    --web.console.templates=/opt/prometheus/consoles \
-    --web.console.libraries=/opt/prometheus/consoles_libraries \
-    --web.listen-address=0.0.0.0:9090 \
+ExecStart=/opt/prometheus/prometheus \\
+    --config.file=/opt/prometheus/prometheus.yml \\
+    --storage.tsdb.path=/var/lib/prometheus \\
+    --web.console.templates=/opt/prometheus/consoles \\
+    --web.console.libraries=/opt/prometheus/consoles_libraries \\
+    --web.listen-address=0.0.0.0:9090 \\
     --web.external-url=
 
 SyslogIdentifier=prometheus
