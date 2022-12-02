@@ -21,38 +21,35 @@ tar -C prometheus --strip-components 1 -xf $prom_filename
 
 rm -f $prom_filename
 
-# move o diretório
-sudo mv prometheus /opt/
-# cria o diretório para armazenamento de dados
-sudo mkdir /var/lib/prometheus
+# Cria os diretórios para gestão do prometheus
+sudo mkdir /var/lib/prometheus # para armazenar dados
+sudo mkdir /etc/prometheus
+
+# move os arquivos 
+sudo mv prometheus/{console,console_libraries,prometheus.yml} /etc/prometheus
+sudo mv prometheus/{prometheus,promtool} /usr/sbin
 
 # Cria a o serviço do prometheus
 cat << EOF | sudo tee > /etc/systemd/system/prometheus.service
 [Unit]
 Description=Prometheus
-Documentation=https://prometheus.io/docs/introduction/overview
+Documentation=https://prometheus.io/docs/introduction
 Wants=network-online.target
 After=network-online.target
 
 [Service]
 Type=simple
-User=rooot
+User=root
 Group=root
-ExecReload=/bin/kill -HUP \$MAINPID
-ExecStart=/opt/prometheus/prometheus \\
-    --config.file=/opt/prometheus/prometheus.yml \\
-    --storage.tsdb.path=/var/lib/prometheus \\
-    --web.console.templates=/opt/prometheus/consoles \\
-    --web.console.libraries=/opt/prometheus/consoles_libraries \\
-    --web.listen-address=0.0.0.0:9090 \\
-    --web.external-url=
-
-SyslogIdentifier=prometheus
+ExecStart=/usr/sbin/prometheus \\
+  --config.file=/etc/prometheus/prometheus.yml \\
+  --storage.tsdb.path=/var/lib/prometheus \\
+  --web.console.templates=/etc/prometheus/consoles \\
+  --web.console.libraries=/etc/prometheus/consoles_libraries
+ExecReload=/usr/bin/kill -s SIGHUP "\$MAINPID"
 Restart=always
-
-[Install]
-WantedBy=multi-user.target
 EOF
+
 
 # Reinicia o systemd e inicializa o prometheus
 sudo systemctl daemon-reload
