@@ -49,6 +49,9 @@ ExecStart=/usr/sbin/prometheus \\
   --web.console.libraries=/etc/prometheus/consoles_libraries
 ExecReload=/usr/bin/kill -s SIGHUP "\$MAINPID"
 Restart=always
+
+[Install]
+WantedBy=multi-user.target
 EOF
 
 
