@@ -62,14 +62,12 @@ get_prom() {
   mv /tmp/output/{prometheus,promtool} /usr/sbin/
 }
 
-generate_promctl() {
-  # Cria o script promctl e o deixa pronto pra uso
-
-}
-
-create_service() {
-  # Cria o serviço do prometheus
-} 
+# generate_promctl() {
+#   # Cria o script promctl e o deixa pronto pra uso
+# }
+# create_service() {
+#   # Cria o serviço do prometheus
+# } 
 #
 #
 # Execução
