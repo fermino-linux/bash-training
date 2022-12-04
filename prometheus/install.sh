@@ -32,12 +32,12 @@ PROMETHEUS_ERRORLOG_FILE=${PROMETHEUS_LOG_DIR}/errorlog
 user_def() {
   # Prepara usuário do prom
   groupadd -r prometheus
-  useradd -d $PROMETHEUS_DATA_DIR -r --shell=/usr/sbin/nologin -g prometheus prometheus
+  useradd -dm $PROMETHEUS_DATA_DIR -r --shell=/usr/sbin/nologin -g prometheus prometheus
 }
 
 create_dir() {
   # Cria a infraestrutura de diretórios do prom
-  mkdir $PROMETHEUS_CONFIG_DIR $PROMETHEUS_LOG_DIR
+  mkdir -p $PROMETHEUS_CONFIG_DIR $PROMETHEUS_LOG_DIR
   
   chown prometheus:prometheus $PROMETHEUS_CONFIG_DIR
   chown prometheus:prometheus $PROMETHEUS_LOG_DIR
