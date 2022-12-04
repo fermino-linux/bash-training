@@ -58,7 +58,7 @@ get_prom() {
 
   chown -R prometheus:prometheus /tmp/output/*
 
-  mv /tmp/output/{consoles, console_libraries, prometheus.yml} $PROMETHEUS_CONFIG_DIR
+  mv /tmp/output/{consoles,console_libraries,prometheus.yml} $PROMETHEUS_CONFIG_DIR
   mv /tmp/output/{prometheus,promtool} /usr/sbin/
 }
 
