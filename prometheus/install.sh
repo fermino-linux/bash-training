@@ -51,13 +51,13 @@ get_prom() {
   local url='https://github.com/prometheus/prometheus/releases/download/v2.40.3/prometheus-2.40.3.linux-amd64.tar.gz'
   local filename='prometheus.tar.gz'
 
-  curl -fsSLo /tmp/$filename $url
-  mkdir /tmp/output && tar -C /tmp/output --strip-components=1 -xf /tmp/$filename
+  cd /tmp && curl -fsSLo $filename $url
+  mkdir output && tar -C output --strip-components=1 -xf $filename
 
-  chown -R prometheus:prometheus /tmp/output/*
+  chown -R prometheus:prometheus output/*
 
-  mv /tmp/output/{consoles,console_libraries,prometheus.yml} $PROMETHEUS_CONFIG_DIR
-  mv /tmp/output/{prometheus,promtool} /usr/sbin/
+  mv output/{consoles,console_libraries,prometheus.yml} $PROMETHEUS_CONFIG_DIR
+  mv output/{prometheus,promtool} /usr/sbin/
 }
 
 # generate_promctl() {
