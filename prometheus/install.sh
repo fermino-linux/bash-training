@@ -54,7 +54,7 @@ get_prom() {
   local filename='prometheus.tar.gz'
 
   curl -fsSLo /tmp/$filename $url
-  mkdir /tmp/output && tar -C /tmp/output --strip-components=1 -xf $filename
+  mkdir /tmp/output && tar -C /tmp/output --strip-components=1 -xf /tmp/$filename
 
   chown -R prometheus:prometheus /tmp/output/*
 
