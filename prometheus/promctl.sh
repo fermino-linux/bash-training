@@ -61,13 +61,14 @@ start() {
 restart() {
     # Restarta o prometheus
     # $1 - PID do processo do prom
-    kill -HUP $1
+    stop $1
+    start
 }
 
 stop() {
     # Para a execução do prometheus
     # $1 - PID do processo do prom
-    kill -STOP $1
+    kill -s SIGSTOP $1
 }
 #
 #
