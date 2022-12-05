@@ -83,8 +83,6 @@ Group=prometheus
 ExecStart=/usr/sbin/promctl
 ExecReload=/usr/sbin/promctl -r '$MAINPID'
 ExecStop=/usr/sbin/promctl -s '$MAINPID'
-Restart=always
-RestartSec=10s
 
 [Install]
 WantedBy=multi-user.target
@@ -94,6 +92,8 @@ EOF
 #
 # Execução
 
+set -exo pipefail
+
 user_def 
 create_dir 
 get_prom
@@ -101,8 +101,10 @@ get_promctl
 create_service 
 
 systemctl daemon-reload
-systemctl start prometheus.service
+systemctl start prometheus
+systemctl status prometheus
 
+unset
 
 
 
