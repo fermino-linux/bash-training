@@ -94,8 +94,6 @@ EOF
 #
 # Execução
 
-set -exo pipefail
-
 user_def 
 create_dir 
 get_prom
