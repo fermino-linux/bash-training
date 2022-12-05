@@ -111,6 +111,7 @@ case $1 in
 
   --help)
     echo "$HELP"
+    exit 0;
     ;;
 
   --verbose)
