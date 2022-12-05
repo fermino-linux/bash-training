@@ -20,8 +20,6 @@ PROMETHEUS_DATA_DIR=/var/lib/prometheus
 PROMETHEUS_LOG_DIR=${PROMETHEUS_DATA_DIR}/logs
 
 PROMETHEUS_CONFIG_FILE=${PROMETHEUS_CONFIG_DIR}/prometheus.yml
-PROMETHEUS_SERVERLOG_FILE=${PROMETHEUS_LOG_DIR}/serverlog
-PROMETHEUS_ERRORLOG_FILE=${PROMETHEUS_LOG_DIR}/errorlog
 #
 #
 #
@@ -60,9 +58,10 @@ get_prom() {
   mv output/{prometheus,promtool} /usr/sbin/
 }
 
-# generate_promctl() {
-#   # Cria o script promctl e o deixa pronto pra uso
-# }
+get_promctl() {
+# Cria o script promctl e o deixa pronto pra uso
+}
+
 # create_service() {
 #   # Cria o serviço do prometheus
 # } 
