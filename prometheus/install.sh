@@ -7,9 +7,11 @@
 # Descrição:
 #   Faz a instalação do prometheus
 # Exemplos:
+#   Obtem ajuda
+#       $ install.sh --help
 #   Instala o prometheus
 #       $ install.sh 
-#   Obtem ajuda
+#   Executa no modo debug
 #       $ install.sh -v
 #
 #
@@ -23,7 +25,16 @@ PROMETHEUS_DATA_DIR=/var/lib/prometheus
 PROMETHEUS_LOG_DIR=${PROMETHEUS_DATA_DIR}/logs
 
 PROMETHEUS_CONFIG_FILE=${PROMETHEUS_CONFIG_DIR}/prometheus.yml
-#
+
+HELP="install.sh
+Descrição: Faz a instalação do prometheus
+
+Uso: install.sh [OPÇÕES]
+
+Opções:
+  --help  -  Exibe esta ajuda
+  --verbose  -  Entra no modo debug
+"
 #
 #
 #
@@ -92,11 +103,22 @@ SyslogIdentifier=prometheus
 WantedBy=multi-user.target
 EOF
 } 
+
 #
 #
 # Execução
+case $1 in
 
-[[ $1 == "-v" ]] && set -exo pipefail
+  --help)
+    echo "$HELP"
+    ;;
+
+  --verbose)
+    set -exo pipefail
+    ;;
+
+esac
+
 
 user_def 
 create_dir 
@@ -108,7 +130,9 @@ systemctl daemon-reload
 systemctl start prometheus
 systemctl status prometheus
 
-[[ $1 == "-v" ]] unset 
+unset
+
+
 
 
 
