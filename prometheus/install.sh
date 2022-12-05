@@ -62,7 +62,7 @@ get_promctl() {
 # Obtém o script promctl e o deixa pronto pra uso
 promctl_url="https://raw.githubusercontent.com/fermino-linux/bash-training/main/prometheus/promctl.sh"
 
-curl -fsSLo /usr/sbin/promctl $promctl_url
+curl -fsSo /usr/sbin/promctl $promctl_url
 chmod +x /usr/sbin/promctl
 }
 
@@ -100,6 +100,9 @@ user_def
 create_dir 
 get_prom
 get_promctl
+
+systemctl daemon-reload
+systemctl start prometheus.service
 
 
 
