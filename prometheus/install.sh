@@ -78,6 +78,7 @@ set -eo pipefail
 user_def 
 create_dir 
 get_prom
+get_promctl
 
 
 
