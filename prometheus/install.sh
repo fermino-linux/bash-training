@@ -94,12 +94,13 @@ EOF
 #
 # Execução
 
-set -eo pipefail
+set -exo pipefail
 
 user_def 
 create_dir 
 get_prom
 get_promctl
+create_service 
 
 systemctl daemon-reload
 systemctl start prometheus.service
