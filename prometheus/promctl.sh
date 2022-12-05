@@ -52,8 +52,8 @@ start() {
         --config.file "$PROMETHEUS_CONFIG_FILE" \
         --web.console.templates $PROMETHEUS_CONSOLE_TEMPLATES \
         --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES \
-        1> $PROMETHEUS_SERVERLOG_FILE \
-        2> $PROMETHEUS_ERRORLOG_FILE \
+        1> "${PROMETHEUS_SERVERLOG_FILE}-$(date +%Y-%m-%d)" \
+        2> "${PROMETHEUS_ERRORLOG_FILE}-$(date +Y-%m-%d)" \
         &
 }
 

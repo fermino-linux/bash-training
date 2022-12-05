@@ -66,9 +66,30 @@ curl -fsSLo /usr/sbin/promctl $promctl_url
 chmod +x /usr/sbin/promctl
 }
 
-# create_service() {
-#   # Cria o serviço do prometheus
-# } 
+create_service() {
+  # Cria o serviço do prometheus
+
+cat << EOF | tee > /etc/systemd/system/prometheus.service
+[Unit]
+Description=Prometheus
+Documentation=https://prometheus.io/docs/introduction/overview/
+Wants=network.target
+After=network.target
+
+[Service]
+Type=simple
+User=prometheus
+Group=prometheus
+ExecStart=/usr/sbin/promctl
+ExecReload=/usr/sbin/promctl -r '$MAINPID'
+ExecStop=/usr/sbin/promctl -s '$MAINPID'
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+} 
 #
 #
 # Execução
