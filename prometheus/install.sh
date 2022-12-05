@@ -8,7 +8,10 @@
 #   Faz a instalação do prometheus
 # Exemplos:
 #   Instala o prometheus
-#       ./install.sh 
+#       $ install.sh 
+#   Obtem ajuda
+#       $ install.sh -v
+#
 #
 #
 #
@@ -73,8 +76,8 @@ cat << EOF | tee > /etc/systemd/system/prometheus.service
 [Unit]
 Description=Prometheus
 Documentation=https://prometheus.io/docs/introduction/overview/
-Wants=network.target
-After=network.target
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=simple
@@ -83,6 +86,7 @@ Group=prometheus
 ExecStart=/usr/sbin/promctl
 ExecReload=/usr/sbin/promctl -r '$MAINPID'
 ExecStop=/usr/sbin/promctl -s '$MAINPID'
+SyslogIdentifier=prometheus
 
 [Install]
 WantedBy=multi-user.target
@@ -92,7 +96,7 @@ EOF
 #
 # Execução
 
-set -exo pipefail
+[[ $1 == "-v" ]] && set -exo pipefail
 
 user_def 
 create_dir 
@@ -104,7 +108,7 @@ systemctl daemon-reload
 systemctl start prometheus
 systemctl status prometheus
 
-unset
+[[ $1 == "-v" ]] unset 
 
 
 
