@@ -50,7 +50,7 @@ start() {
     # Executa o prometheus em background
     /usr/sbin/prometheus \
         --config.file "$PROMETHEUS_CONFIG_FILE" \
-        --web.listen-address=0.0.0.0:9090\
+        --web.listen-address=0.0.0.0:9090 \
         --web.console.templates $PROMETHEUS_CONSOLE_TEMPLATES \
         --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES \
         > "${PROMETHEUS_SERVERLOG_FILE}-$(date +%Y-%m-%d)" \
@@ -89,7 +89,7 @@ case $1 in
     -s)
         shift;
         stop $1
-        exit 0
+        exit 1
         ;;
     
     *)
