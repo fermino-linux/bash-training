@@ -94,9 +94,9 @@ After=network-online.target
 Type=oneshot
 User=prometheus
 Group=prometheus
-ExecReload=/usr/sbin/promctl -r "\$MAINPID"
+ExecReload=/usr/sbin/promctl -r \$MAINPID
 ExecStart=/usr/sbin/promctl
-ExecStop=/usr/sbin/promctl -s "\$MAINPID"
+ExecStop=/usr/sbin/promctl -s \$MAINPID
 SyslogIdentifier=prometheus
 
 [Install]
