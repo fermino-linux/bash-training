@@ -22,6 +22,7 @@ PROMETHEUS_CONFIG_DIR=/etc/prometheus
 PROMETHEUS_CONSOLE_TEMPLATES=${PROMETHEUS_CONFIG_DIR}/console
 PROMETHEUS_CONSOLE_LIBRARIES=${PROMETHEUS_CONFIG_DIR}/console_libraries
 PROMETHEUS_DATA_DIR=/var/lib/prometheus
+PROMETHEUS_LOG_DIR=${PROMETHEUS_DATA_DIR}/logs
 
 PROMETHEUS_CONFIG_FILE=${PROMETHEUS_CONFIG_DIR}/prometheus.yml
 
@@ -38,19 +39,16 @@ Opções:
 #
 #
 # Funções
-user_def() {
-  # Prepara usuário do prom
-  groupadd -r prometheus
-  useradd -m -r -d $PROMETHEUS_DATA_DIR -s /usr/sbin/nologin -g prometheus prometheus
-}
 
 create_dir() {
   # Cria a infraestrutura de diretórios do prom
-  mkdir -p $PROMETHEUS_CONFIG_DIR 
+  mkdir -p $PROMETHEUS_CONFIG_DIR $PROMETHEUS_LOG_DIR
   
-  chown prometheus:prometheus $PROMETHEUS_CONFIG_DIR
+  chown root:root $PROMETHEUS_CONFIG_DIR
+  chown root:root $PROMETHEUS_LOG_DIR
 
   chmod 775 $PROMETHEUS_CONFIG_DIR
+  chmod 775 $PROMETHEUS_LOG_DIR
 }
 
 get_prom() {
@@ -63,7 +61,7 @@ get_prom() {
   cd /tmp && curl -fsSLo $filename $url
   mkdir output && tar -C output --strip-components=1 -xf $filename
 
-  chown -R prometheus:prometheus output/*
+  chown -R root:root output/*
 
   mv output/{consoles,console_libraries,prometheus.yml} $PROMETHEUS_CONFIG_DIR
   mv output/{prometheus,promtool} /usr/sbin/
@@ -76,28 +74,6 @@ promctl_url="https://raw.githubusercontent.com/fermino-linux/bash-training/main/
 curl -fsSo /usr/sbin/promctl $promctl_url
 chmod +x /usr/sbin/promctl
 }
-
-create_service() {
-  # Cria o serviço do prometheus
-
-cat << EOF | tee > /etc/systemd/system/prometheus.service
-[Unit]
-Description=Prometheus
-Documentation=https://prometheus.io/docs/introduction/overview/
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-Type=simple
-User=prometheus
-Group=prometheus
-ExecStart=/usr/sbin/promctl
-SyslogIdentifier=prometheus
-
-[Install]
-WantedBy=multi-user.target
-EOF
-} 
 
 #
 #
@@ -116,15 +92,9 @@ case $1 in
 esac
 
 
-user_def 
 create_dir 
 get_prom
 get_promctl
-create_service 
-
-systemctl daemon-reload
-systemctl start prometheus
-systemctl status prometheus
 
 unset
 
