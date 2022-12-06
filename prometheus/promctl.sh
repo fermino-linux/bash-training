@@ -71,7 +71,7 @@ start() {
         1> "${PROMETHEUS_LOG_DIR}/serverlog-$(date +%Y-%m-%d)" \
         &
     
-    echo $! > $pid_file
+    echo "$!" > $pid_file
 }
 
 restart() {
@@ -81,7 +81,7 @@ restart() {
 
 stop() {
     # Para a execução do prometheus
-    cat $pid_file | xargs kill -s SIGSTOP 
+    cat $pid_file | xargs kill -s SIGKILL 
 }
 #
 #
