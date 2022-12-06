@@ -91,7 +91,7 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-Type=simple
+Type=oneshot
 User=prometheus
 Group=prometheus
 ExecReload=/usr/sbin/promctl -r "\$MAINPID"
