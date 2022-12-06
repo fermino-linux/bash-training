@@ -22,7 +22,6 @@ PROMETHEUS_CONFIG_DIR=/etc/prometheus
 PROMETHEUS_CONSOLE_TEMPLATES=${PROMETHEUS_CONFIG_DIR}/console
 PROMETHEUS_CONSOLE_LIBRARIES=${PROMETHEUS_CONFIG_DIR}/console_libraries
 PROMETHEUS_DATA_DIR=/var/lib/prometheus
-PROMETHEUS_LOG_DIR=${PROMETHEUS_DATA_DIR}/logs
 
 PROMETHEUS_CONFIG_FILE=${PROMETHEUS_CONFIG_DIR}/prometheus.yml
 
@@ -47,13 +46,11 @@ user_def() {
 
 create_dir() {
   # Cria a infraestrutura de diretórios do prom
-  mkdir -p $PROMETHEUS_CONFIG_DIR $PROMETHEUS_LOG_DIR
+  mkdir -p $PROMETHEUS_CONFIG_DIR 
   
   chown prometheus:prometheus $PROMETHEUS_CONFIG_DIR
-  chown prometheus:prometheus $PROMETHEUS_LOG_DIR
 
   chmod 775 $PROMETHEUS_CONFIG_DIR
-  chmod 775 $PROMETHEUS_LOG_DIR
 }
 
 get_prom() {
@@ -94,9 +91,7 @@ After=network-online.target
 Type=oneshot
 User=prometheus
 Group=prometheus
-ExecReload=/usr/sbin/promctl -r \$MAINPID
 ExecStart=/usr/sbin/promctl
-ExecStop=/usr/sbin/promctl -s \$MAINPID
 SyslogIdentifier=prometheus
 
 [Install]

@@ -27,8 +27,6 @@ PROMETHEUS_DATA_DIR=/var/lib/prometheus
 PROMETHEUS_LOG_DIR=${PROMETHEUS_DATA_DIR}/logs
 
 PROMETHEUS_CONFIG_FILE=${PROMETHEUS_CONFIG_DIR}/prometheus.yml
-PROMETHEUS_SERVERLOG_FILE=${PROMETHEUS_LOG_DIR}/serverlog
-PROMETHEUS_ERRORLOG_FILE=${PROMETHEUS_LOG_DIR}/errorlog
 
 HELP="Promctl
 Descrição: Auxilia a execução do prometheus como serviço
@@ -52,10 +50,7 @@ start() {
         --config.file "$PROMETHEUS_CONFIG_FILE" \
         --web.listen-address=0.0.0.0:9090 \
         --web.console.templates $PROMETHEUS_CONSOLE_TEMPLATES \
-        --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES \
-        > "${PROMETHEUS_SERVERLOG_FILE}-$(date +%Y-%m-%d)" \
-        2> "${PROMETHEUS_ERRORLOG_FILE}-$(date +%Y-%m-%d)" \
-        &
+        --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES &
 }
 
 restart() {
