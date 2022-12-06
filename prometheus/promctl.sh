@@ -82,8 +82,7 @@ restart() {
 
 stop() {
     # Para a execução do prometheus
-    kill -s SIGSTOP $pid_file
-    rm $pid_file
+    kill -s SIGSTOP $pid_file && rm $pid_file
 }
 #
 #
