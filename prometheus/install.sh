@@ -88,7 +88,7 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-Type=oneshot
+Type=simple
 User=prometheus
 Group=prometheus
 ExecStart=/usr/sbin/promctl
