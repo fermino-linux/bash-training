@@ -78,24 +78,20 @@ case $1 in
 
     --help)
         echo $HELP
-        exit 0
         ;;
     
     -r)
         shift;
         restart $1
-        exit 0
         ;;
     
     -s)
         shift;
         stop $1
-        exit 1
         ;;
     
     *)
         start $1
-        exit 0
         ;;
 
 esac

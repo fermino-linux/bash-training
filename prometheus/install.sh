@@ -94,8 +94,8 @@ After=network-online.target
 Type=simple
 User=prometheus
 Group=prometheus
-ExecStart=/usr/sbin/promctl
 ExecReload=/usr/sbin/promctl -r "\$MAINPID"
+ExecStart=/usr/sbin/promctl
 ExecStop=/usr/sbin/promctl -s "\$MAINPID"
 SyslogIdentifier=prometheus
 
