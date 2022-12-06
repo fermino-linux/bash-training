@@ -77,12 +77,12 @@ start() {
 
 restart() {
     # Restarta o prometheus
-    kill -s SIGHUP $pid_file
+    cat $pid_file | xargs kill -s SIGHUP 
 }
 
 stop() {
     # Para a execução do prometheus
-    kill -s SIGKILL $pid_file && rm $pid_file
+    cat $pid_file | xargs kill -s SIGSTOP 
 }
 #
 #
