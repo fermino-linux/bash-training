@@ -43,26 +43,7 @@ pid_file=/var/run/prometheus.pid
 #
 #
 # Funções
-control_pid() {
-    # prometheus.pid existe?
-    if [[ -f $pid_file ]] ; then 
-        # esse pid está vinculado ao um processo em execução?
-        pgrep -F $pid_file
-
-        if [[ $? -eq 1 ]] ; then
-            # não está em execução
-            rm $pid_file
-        else
-            # está em execução
-            exit
-        fi
-    else
-        # não existe
-        echo $$ > $pid_file
-    fi
-}
-
-
+#
 start() {
     # Executa o prometheus em background
     /usr/sbin/prometheus \
@@ -87,7 +68,29 @@ stop() {
 #
 #
 #
+# Testes
+#
+# prometheus.pid existe?
+if [[ -f $pid_file ]] ; then 
+    # esse pid está vinculado ao um processo em execução?
+    pgrep -F $pid_file
+
+    if [[ $? -eq 1 ]] ; then
+        # não está em execução
+        rm $pid_file
+    else
+        # está em execução
+        exit
+    fi
+else
+    # não existe
+    echo $$ > $pid_file
+fi
+#
+#
+#
 # Execução
+#
 case $1 in
 
     --help)
@@ -103,7 +106,6 @@ case $1 in
         ;;
     
     *)
-        control_pid
         start
         ;;
 
