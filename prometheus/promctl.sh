@@ -56,6 +56,7 @@ check_pid() {
             # está em execução
             exit
         fi
+    fi
 }
 
 
@@ -101,7 +102,7 @@ case $1 in
         ;;
     
     *)
-        control_pid
+        check_pid
         start
         ;;
 
