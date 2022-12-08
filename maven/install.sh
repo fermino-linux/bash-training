@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
+#
+# Autor: 
+#    Fermino
+# Versão:
+#   1.0
+# Descrição:
+#   Faz a instalação do maven
+# Exemplos:
+#   Instala o maven
+#       $ install.sh 
+#
 
 ## Prepara o java, utilizando o pacote do projeto eclipse-temurin
 get_temurin() {
@@ -20,7 +31,7 @@ filename="maven.tar.gz"
 curl -fsSLo $filename $url
 mkdir /opt/maven && \
     chmod 775 /opt/maven && \
-    tar -C /opt/maven --strip-components -xf $filename
+    tar -C /opt/maven --strip-components 1 -xf $filename
 
 
 export JAVA_HOME="/opt/temurin"

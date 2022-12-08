@@ -3,7 +3,7 @@
 # Autor: 
 #    Fermino
 # Versão:
-#   1.0
+#   1.1
 # Descrição:
 #   Faz a instalação do docker
 # Exemplos:
