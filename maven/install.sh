@@ -10,9 +10,6 @@ get_temurin() {
     mkdir /opt/temurin && \
         chmod 755 /opt/temurin && \
         tar -C /opt/temurin --strip-components 1 -xf $filename
-
-    export JAVA_HOME=/opt/temurin
-    export PATH="${PATH}:${JAVA_HOME}/bin"
 }
 
 cd /tmp && get_temurin
@@ -25,6 +22,9 @@ mkdir /opt/maven && \
     chmod 775 /opt/maven && \
     tar -C /opt/maven --strip-components -xf $filename
 
+
+export JAVA_HOME="/opt/temurin"
+export PATH="${PATH}:${JAVA_HOME}/bin"
 export PATH="${PATH}:/opt/maven/bin"
 
 
