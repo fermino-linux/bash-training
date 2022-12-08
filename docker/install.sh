@@ -34,5 +34,5 @@ sudo systemctl enable --now docker &>/dev/null
 if [[ $# -gt 0 ]] ; then
     control_user="$1"
     grep "$control_user" /etc/passwd &>/dev/null
-    [[ $? -ne 0 ]] && usermod -aG docker "$control_user" && newgrp docker
+    [[ $? -eq 0 ]] && usermod -aG docker "$control_user" && newgrp docker
 fi
