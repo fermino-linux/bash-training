@@ -11,9 +11,9 @@
 #   Inicia o prometheus
 #       $ ./promctl
 #   Reinicia o prometheus 
-#       $ ./promctl -r PID
+#       $ ./promctl -r 
 #   Para a execução do prometheus
-#       $ ./promctl -s PID
+#       $ ./promctl -s 
 #   Obtem ajuda
 #       $ ./promctl --help
 #
