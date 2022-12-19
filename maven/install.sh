@@ -34,9 +34,12 @@ mkdir /opt/maven && \
     tar -C /opt/maven --strip-components 1 -xf $filename
 
 
-export JAVA_HOME="/opt/temurin"
-export PATH="${PATH}:${JAVA_HOME}/bin"
-export PATH="${PATH}:/opt/maven/bin"
+JAVA_HOME="/opt/temurin"
+PATH="${JAVA_HOME}/bin:$PATH"
+PATH="/opt/maven/bin:$PATH"
+
+export JAVA_HOME
+export PATH
 
 
 
