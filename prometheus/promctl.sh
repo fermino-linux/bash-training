@@ -8,8 +8,10 @@
 #   Auxilia a execução do prometheus 
 #
 # Exemplo
-#   Inicia o prometheus
+#   Inicia o prometheus em background
 #       $ ./promctl
+#   Inicia o prometheus em foreground
+#       $ ./promctl --foreground
 #   Reinicia o prometheus 
 #       $ ./promctl -r 
 #   Para a execução do prometheus
@@ -36,6 +38,7 @@ Opções:
   --help  -  Exibe esta ajuda
   -r  -  Reinicia o processo do PROM
   -s  -  Para o processo do PROM
+  --foreground - Inicia o prometheus em foreground
 "
 
 pid_file=/var/run/prometheus.pid
@@ -74,6 +77,16 @@ start() {
     echo "$!" > $pid_file
 }
 
+start_foreground() {
+    # Executa o prometheus em foreground
+    /usr/sbin/prometheus \
+        --config.file "$PROMETHEUS_CONFIG_FILE" \
+        --web.listen-address=0.0.0.0:9090 \
+        --web.console.templates $PROMETHEUS_CONSOLE_TEMPLATES \
+        --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES \
+}
+
+
 restart() {
     # Restarta o prometheus
     cat $pid_file | xargs kill -s SIGHUP 
@@ -101,9 +114,12 @@ case $1 in
         stop
         ;;
     
+    --foreground)
+        start_foreground
+        ;;
+    
     *)
         check_pid
         start
         ;;
-
 esac
