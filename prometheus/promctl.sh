@@ -83,7 +83,7 @@ start_foreground() {
         --config.file "$PROMETHEUS_CONFIG_FILE" \
         --web.listen-address=0.0.0.0:9090 \
         --web.console.templates $PROMETHEUS_CONSOLE_TEMPLATES \
-        --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES \
+        --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES 
 }
 
 
