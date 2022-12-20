@@ -3,21 +3,19 @@
 # Autor: 
 #    Fermino
 # Versão:
-#   1.0
+#   2.0
 # Descrição:
-#   Auxilia a execução do prometheus 
-#
-# Exemplo
-#   Inicia o prometheus em background
-#       $ ./promctl
-#   Inicia o prometheus em foreground
-#       $ ./promctl --foreground
-#   Reinicia o prometheus 
-#       $ ./promctl -r 
-#   Para a execução do prometheus
-#       $ ./promctl -s 
+#   Faz a instalação do prometheus
+# Exemplos:
 #   Obtem ajuda
-#       $ ./promctl --help
+#       $ install.sh --help
+#   Instala o prometheus
+#       $ install.sh 
+#   Executa no modo debug
+#       $ install.sh -v
+#
+#
+#
 #
 # Variáveis
 PROMETHEUS_CONFIG_DIR=/etc/prometheus
@@ -25,102 +23,75 @@ PROMETHEUS_CONSOLE_TEMPLATES=${PROMETHEUS_CONFIG_DIR}/console
 PROMETHEUS_CONSOLE_LIBRARIES=${PROMETHEUS_CONFIG_DIR}/console_libraries
 PROMETHEUS_DATA_DIR=/var/lib/prometheus
 PROMETHEUS_LOG_DIR=${PROMETHEUS_DATA_DIR}/logs
-PROMETHEUS_EXEC_DIR=/usr/sbin
 
 PROMETHEUS_CONFIG_FILE=${PROMETHEUS_CONFIG_DIR}/prometheus.yml
 
-HELP="Promctl
-Descrição: Auxilia a execução e gerenciamento do prometheus
-
-Uso: promctl [OPÇÕES]
-
+HELP="install.sh
+Descrição: Faz a instalação do prometheus
+Uso: install.sh [OPÇÕES]
 Opções:
   --help  -  Exibe esta ajuda
-  -r  -  Reinicia o processo do PROM
-  -s  -  Para o processo do PROM
-  --foreground - Inicia o prometheus em foreground
+  --verbose  -  Entra no modo debug
 "
-
-pid_file=/var/run/prometheus.pid
 #
 #
 #
 # Funções
-check_pid() {
-    # prometheus.pid existe?
-    if [[ -f $pid_file ]] ; then 
-        # esse pid está vinculado ao um processo em execução?
-        pgrep -F $pid_file
 
-        if [[ $? -eq 1 ]] ; then
-            # não está em execução
-            rm $pid_file
-        else
-            # está em execução
-            exit
-        fi
-    fi
+create_dir() {
+  # Cria a infraestrutura de diretórios do prom
+  mkdir -p $PROMETHEUS_CONFIG_DIR $PROMETHEUS_LOG_DIR
+  
+  chown root:root $PROMETHEUS_CONFIG_DIR
+  chown root:root $PROMETHEUS_LOG_DIR
+
+  chmod 775 $PROMETHEUS_CONFIG_DIR
+  chmod 775 $PROMETHEUS_LOG_DIR
 }
 
+get_prom() {
+  # Faz o download do tarball do prometheus
+  # e extrai seus arquivos para os diretórios
+  # correspondentes.
+  local url='https://github.com/prometheus/prometheus/releases/download/v2.40.3/prometheus-2.40.3.linux-amd64.tar.gz'
+  local filename='prometheus.tar.gz'
 
-start() {
-    # Executa o prometheus em background
-    /usr/sbin/prometheus \
-        --config.file "$PROMETHEUS_CONFIG_FILE" \
-        --web.listen-address=0.0.0.0:9090 \
-        --web.console.templates $PROMETHEUS_CONSOLE_TEMPLATES \
-        --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES \
-        2> "${PROMETHEUS_LOG_DIR}/errorlog-$(date +%Y-%m-%d)" \
-        1> "${PROMETHEUS_LOG_DIR}/serverlog-$(date +%Y-%m-%d)" \
-        &
-    
-    echo "$!" > $pid_file
+  cd /tmp && curl -fsSLo $filename $url
+  mkdir output && tar -C output --strip-components=1 -xf $filename
+
+  chown -R root:root output/*
+
+  mv output/{consoles,console_libraries,prometheus.yml} $PROMETHEUS_CONFIG_DIR
+  mv output/{prometheus,promtool} /usr/sbin/
 }
 
-start_foreground() {
-    # Executa o prometheus em foreground
-    /usr/sbin/prometheus \
-        --config.file "$PROMETHEUS_CONFIG_FILE" \
-        --web.listen-address=0.0.0.0:9090 \
-        --web.console.templates $PROMETHEUS_CONSOLE_TEMPLATES \
-        --web.console.libraries $PROMETHEUS_CONSOLE_LIBRARIES \
+get_promctl() {
+# Obtém o script promctl e o deixa pronto pra uso
+promctl_url="https://raw.githubusercontent.com/fermino-linux/bash-training/main/prometheus/promctl.sh"
+
+curl -fsSo /usr/sbin/promctl $promctl_url
+chmod +x /usr/sbin/promctl
 }
 
-
-restart() {
-    # Restarta o prometheus
-    cat $pid_file | xargs kill -s SIGHUP 
-}
-
-stop() {
-    # Para a execução do prometheus
-    cat $pid_file | xargs kill -s SIGKILL 
-}
-#
 #
 #
 # Execução
 case $1 in
 
-    --help)
-        echo $HELP
-        ;;
-    
-    -r)
-        restart
-        ;;
-    
-    -s)
-        stop
-        ;;
-    
-    --foreground)
-        start_foreground
-        ;;
-    
-    *)
-        check_pid
-        start
-        ;;
+  --help)
+    echo "$HELP"
+    exit 0;
+    ;;
+
+  --verbose)
+    set -exo pipefail
+    ;;
 
 esac
+
+
+create_dir 
+get_prom
+get_promctl
+
+unset
