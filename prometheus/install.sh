@@ -19,6 +19,7 @@
 #
 # Variáveis
 PROMETHEUS_CONFIG_DIR=/etc/prometheus
+PROMETHEUS_RULES_DIR=/etc/prometheus/rules
 PROMETHEUS_CONSOLE_TEMPLATES=${PROMETHEUS_CONFIG_DIR}/console
 PROMETHEUS_CONSOLE_LIBRARIES=${PROMETHEUS_CONFIG_DIR}/console_libraries
 PROMETHEUS_DATA_DIR=/var/lib/prometheus
@@ -40,12 +41,14 @@ Opções:
 
 create_dir() {
   # Cria a infraestrutura de diretórios do prom
-  mkdir -p $PROMETHEUS_CONFIG_DIR $PROMETHEUS_LOG_DIR
+  mkdir -p $PROMETHEUS_CONFIG_DIR $PROMETHEUS_RULES_DIR $PROMETHEUS_LOG_DIR
   
   chown root:root $PROMETHEUS_CONFIG_DIR
+  chown root:root $PROMETHEUS_RULES_DIR
   chown root:root $PROMETHEUS_LOG_DIR
 
   chmod 775 $PROMETHEUS_CONFIG_DIR
+  chmod 775 $PROMETHEUS_RULES_DIR
   chmod 775 $PROMETHEUS_LOG_DIR
 }
 
